@@ -1,0 +1,59 @@
+2024-04-18 00:03:45,263 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-04-18 00:03:45,263 - INFO - [33mPress CTRL+C to quit[0m
+2024-04-18 00:03:45,271 - INFO -  * Restarting with stat
+2024-04-18 00:03:45,793 - WARNING -  * Debugger is active!
+2024-04-18 00:03:45,810 - INFO -  * Debugger PIN: 902-421-993
+2024-04-18 00:04:13,180 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:13] "GET /swagger/ HTTP/1.1" 200 -
+2024-04-18 00:04:13,326 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:13] "[36mGET /swagger/index.css HTTP/1.1[0m" 304 -
+2024-04-18 00:04:13,357 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:13] "[36mGET /swagger/swagger-ui.css HTTP/1.1[0m" 304 -
+2024-04-18 00:04:13,650 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:13] "[36mGET /swagger/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2024-04-18 00:04:13,744 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:13] "[36mGET /swagger/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2024-04-18 00:04:14,197 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:14] "GET /swagger.json HTTP/1.1" 200 -
+2024-04-18 00:04:42,512 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-04-18 00:04:42,512 - INFO - [33mPress CTRL+C to quit[0m
+2024-04-18 00:04:42,522 - INFO -  * Restarting with stat
+2024-04-18 00:04:43,079 - WARNING -  * Debugger is active!
+2024-04-18 00:04:43,084 - INFO -  * Debugger PIN: 902-421-993
+2024-04-18 00:04:45,839 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:45] "GET /swagger/ HTTP/1.1" 200 -
+2024-04-18 00:04:45,910 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:45] "[36mGET /swagger/index.css HTTP/1.1[0m" 304 -
+2024-04-18 00:04:46,097 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:46] "[36mGET /swagger/swagger-ui.css HTTP/1.1[0m" 304 -
+2024-04-18 00:04:46,187 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:46] "[36mGET /swagger/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2024-04-18 00:04:46,234 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:46] "[36mGET /swagger/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2024-04-18 00:04:46,938 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:46] "GET /swagger.json HTTP/1.1" 200 -
+2024-04-18 00:04:46,985 - INFO - 127.0.0.1 - - [18/Apr/2024 00:04:46] "[36mGET /swagger/favicon-32x32.png HTTP/1.1[0m" 304 -
+2024-04-18 00:05:41,317 - INFO - 127.0.0.1 - - [18/Apr/2024 00:05:41] "[31m[1mPOST /payment/login HTTP/1.1[0m" 401 -
+2024-04-18 00:06:24,322 - INFO - 127.0.0.1 - - [18/Apr/2024 00:06:24] "[35m[1mPOST /payment/register HTTP/1.1[0m" 201 -
+2024-04-18 00:06:31,662 - INFO - 127.0.0.1 - - [18/Apr/2024 00:06:31] "POST /payment/login HTTP/1.1" 200 -
+2024-04-18 00:07:30,972 - INFO - 127.0.0.1 - - [18/Apr/2024 00:07:30] "[31m[1mPOST /payment/transfer HTTP/1.1[0m" 401 -
+2024-04-18 10:35:15,216 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-04-18 10:35:15,218 - INFO - [33mPress CTRL+C to quit[0m
+2024-04-18 10:35:15,237 - INFO -  * Restarting with stat
+2024-04-18 10:35:16,809 - WARNING -  * Debugger is active!
+2024-04-18 10:35:16,826 - INFO -  * Debugger PIN: 902-421-993
+2024-04-18 10:35:30,049 - INFO - 127.0.0.1 - - [18/Apr/2024 10:35:30] "GET /swagger/ HTTP/1.1" 200 -
+2024-04-18 10:35:30,873 - INFO - 127.0.0.1 - - [18/Apr/2024 10:35:30] "[36mGET /swagger/index.css HTTP/1.1[0m" 304 -
+2024-04-18 10:35:30,877 - INFO - 127.0.0.1 - - [18/Apr/2024 10:35:30] "[36mGET /swagger/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2024-04-18 10:35:31,070 - INFO - 127.0.0.1 - - [18/Apr/2024 10:35:31] "[36mGET /swagger/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2024-04-18 10:35:31,080 - INFO - 127.0.0.1 - - [18/Apr/2024 10:35:31] "[36mGET /swagger/swagger-ui.css HTTP/1.1[0m" 304 -
+2024-04-18 10:35:32,007 - INFO - 127.0.0.1 - - [18/Apr/2024 10:35:32] "GET /swagger.json HTTP/1.1" 200 -
+2024-04-18 10:36:18,385 - INFO - 127.0.0.1 - - [18/Apr/2024 10:36:18] "[35m[1mPOST /payment/register HTTP/1.1[0m" 201 -
+2024-04-18 10:36:52,528 - INFO - 127.0.0.1 - - [18/Apr/2024 10:36:52] "POST /payment/login HTTP/1.1" 200 -
+2024-04-18 10:37:50,714 - INFO - 127.0.0.1 - - [18/Apr/2024 10:37:50] "[35m[1mPOST /payment/register HTTP/1.1[0m" 201 -
+2024-04-18 10:38:11,025 - INFO - 127.0.0.1 - - [18/Apr/2024 10:38:11] "POST /payment/login HTTP/1.1" 200 -
+2024-04-18 10:38:52,408 - INFO - 127.0.0.1 - - [18/Apr/2024 10:38:52] "[31m[1mPOST /payment/transfer HTTP/1.1[0m" 401 -
+2024-04-18 10:40:26,075 - INFO - 127.0.0.1 - - [18/Apr/2024 10:40:26] "[33mPOST /login HTTP/1.1[0m" 404 -
+2024-04-18 10:40:48,047 - INFO - 127.0.0.1 - - [18/Apr/2024 10:40:48] "POST /payment/login HTTP/1.1" 200 -
+2024-04-18 10:41:03,894 - INFO - 127.0.0.1 - - [18/Apr/2024 10:41:03] "[31m[1mPOST /swagger/ HTTP/1.1[0m" 405 -
+2024-04-18 11:06:40,779 - INFO - 127.0.0.1 - - [18/Apr/2024 11:06:40] "GET /swagger/ HTTP/1.1" 200 -
+2024-04-18 11:06:40,939 - INFO - 127.0.0.1 - - [18/Apr/2024 11:06:40] "[36mGET /swagger/index.css HTTP/1.1[0m" 304 -
+2024-04-18 11:06:40,949 - INFO - 127.0.0.1 - - [18/Apr/2024 11:06:40] "[36mGET /swagger/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2024-04-18 11:06:41,249 - INFO - 127.0.0.1 - - [18/Apr/2024 11:06:41] "[36mGET /swagger/swagger-ui.css HTTP/1.1[0m" 304 -
+2024-04-18 11:06:41,259 - INFO - 127.0.0.1 - - [18/Apr/2024 11:06:41] "[36mGET /swagger/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2024-04-18 11:06:41,972 - INFO - 127.0.0.1 - - [18/Apr/2024 11:06:41] "GET /swagger.json HTTP/1.1" 200 -
+2024-04-18 11:06:42,009 - INFO - 127.0.0.1 - - [18/Apr/2024 11:06:42] "[36mGET /swagger/favicon-32x32.png HTTP/1.1[0m" 304 -
+2024-04-18 11:07:01,169 - INFO - 127.0.0.1 - - [18/Apr/2024 11:07:01] "[31m[1mGET /payment/transactions/4 HTTP/1.1[0m" 401 -
+2024-04-18 11:07:37,819 - INFO - 127.0.0.1 - - [18/Apr/2024 11:07:37] "POST /payment/login HTTP/1.1" 200 -
+2024-04-18 11:08:01,424 - INFO - 127.0.0.1 - - [18/Apr/2024 11:08:01] "[31m[1mGET /payment/transactions/5 HTTP/1.1[0m" 401 -
