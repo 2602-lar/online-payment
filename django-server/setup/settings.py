@@ -1,27 +1,22 @@
 from pathlib import Path
 from datetime import timedelta
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5%4t^h+o$s64@b*yxtywq#k5bt7u(j@xe*d^7-c$)4arye_9@s'
+SECRET_KEY = 'django-insecure-e54@&!5)u(_l!l)^gl@nf%+y^qk!q9ipoku4$&ch^ygc83iyfw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
-
-CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -32,18 +27,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    #other apps not default
+        #other apps not default
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
     
     #system apps
-    'payments_api'
+    'payment_api'
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'online_payment_setup.urls'
+ROOT_URLCONF = 'setup.urls'
 
 TEMPLATES = [
     {
@@ -116,7 +111,7 @@ REST_FRAMEWORK = {
     
  }
 
-WSGI_APPLICATION = 'online_payment_setup.wsgi.application'
+WSGI_APPLICATION = 'setup.wsgi.application'
 
 
 # Database
@@ -170,4 +165,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-

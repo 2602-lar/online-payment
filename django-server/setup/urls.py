@@ -6,6 +6,7 @@ from .views import MyTokenObtainPairView
 from rest_framework_simplejwt.views import (TokenRefreshView)
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls), 
     path('api-auth/', include('rest_framework.urls')),
@@ -14,4 +15,3 @@ urlpatterns = [
 ]
 
 urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-

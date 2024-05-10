@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
         let response = ''
         await axios({
             method: 'POST',
-            url: proxy + '/create_account',
+            url: proxy + '/token/',
             headers: {
                 "Content-Type": "application/json"
             },

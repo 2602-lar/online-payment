@@ -90,7 +90,7 @@ export const Login = () => {
               setvalue={setPassword}
             />
 
-            <button className='w-full h-[20%] bg-white rounded-md hover:rounded-3xl font-semibold' onClick={() => { Navigate('/home') }}>
+            <button className='w-full h-[20%] bg-white rounded-md hover:rounded-3xl font-semibold' onClick={() => { Login() }}>
               Login
             </button>
 
