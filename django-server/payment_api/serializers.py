@@ -31,7 +31,7 @@ class Bank_AccountSerializer(serializers.ModelSerializer) :
         model = bank_account
         fields = '__all__'
         
-class PruneBank_AcountSerializer(serializers.ModelSerializer) :
+class PruneBank_AccountSerializer(serializers.ModelSerializer) :
     
     class Meta:
         model = bank_account

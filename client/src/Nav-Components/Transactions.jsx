@@ -1,18 +1,33 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Payment from '../Forms/Payment'
+import { DataSubmission } from '../reusables/Requests'
+import AuthContext from '../Context/AuthContext'
 
 const Transactions = () => {
 
   const[payment, setPayment] =useState(false)
+  let { user } = useContext(AuthContext)
+  const[transactions, setTransactions] = useState([])
+
+  const fetchData = async() => {
+    const accountNumber = user.username
+    var res =  await DataSubmission('POST', '/payment-api/client-transactions/', {'account_number' : accountNumber})
+    setTransactions(res[0].res.data)
+  }
+
+  useEffect(() => {
+    fetchData()},
+    [payment]
+  )
   return (
     <div className='w-full h-full bg-green-500 rounded-lg'>
-      <Payment payment={payment} setpayment={setPayment}/>
+      <Payment payment={payment} setpayment={setPayment} user = {user}/>
       <div className='w-full mt-0 bg-green-600 h-[8%] text-center text-white font-bold text-2xl'>
         Account Transactions
       </div>
 
       <div className='w-full h-[92%] px-5 py-5 gap-y-2'>
-        <table className='w-full h-[88%] text-white border-2 border-green-700 border-solid'>
+        <table className='w-full table-fixed top-0 h-[88%] text-white border-2 border-green-700 border-solid'>
           <thead className='sticky top-0'>
             <tr>
               <th>
@@ -35,6 +50,17 @@ const Transactions = () => {
               </th>
             </tr>
           </thead>
+          <tbody>
+            {transactions.length == 0 ?
+          <tr>
+            <td colSpan={6} className='text-center'>
+              No data available for preview
+            </td>
+          </tr> 
+          :
+          <tr></tr> 
+          }
+          </tbody>
         </table>
 
         <div className=' w-full h-[12%] border-2 border-green-700 border-solid py-4 px-4'>

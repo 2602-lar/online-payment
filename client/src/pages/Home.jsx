@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { NavTab } from '../reusables/components'
+import { NavTab, logo } from '../reusables/components'
 import { Outlet } from 'react-router-dom'
 import AuthContext from '../Context/AuthContext'
 
@@ -14,7 +14,7 @@ export const Home = () => {
         <div className='fixed w-screen h-screen flex'>
             <div className='w-[20%] h-full bg-green-500 '>
                 <div className='h-[30%] w-full text-center text-white text-3xl p-2'>
-                    <img src='zwmb_logo.jpeg' alt='' className='w-full h-full' />
+                    <img src={logo} alt='Zimbabwe Women Microfinance Bank' className='w-full h-full text-white text-3xl font-bold' />
                 </div>
                 <NavTab
                     label={'Dashboard'}

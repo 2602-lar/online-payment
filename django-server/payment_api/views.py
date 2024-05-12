@@ -46,7 +46,7 @@ class Account_detailsViewSet(viewsets.ModelViewSet):
         serializer.save()
         account_number = generate_id(bank_account, "ACC")
         account_user = account_detail.objects.get(id_number = serializer.data['id_number'])
-        bank_account_create = PruneBank_AcountSerializer(data = {
+        bank_account_create = PruneBank_AccountSerializer(data = {
             'account_number' : account_number,
             'account_owner' : serializer.data['id_number'],
             'balance_USD' : 0.0,
@@ -91,7 +91,7 @@ class Bank_accountViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
     
     queryset = bank_account.objects.all()
-    serializer_class = PruneBank_AcountSerializer
+    serializer_class = PruneBank_AccountSerializer
     
     def perform_create(self, serializer):
         serializer.save()
@@ -169,3 +169,33 @@ def get_user(request):
     account = account_detail.objects.filter(id_number = (data['id_number'][0]))
     account = Account_DetailsSerializer(account, many=True)
     return JsonResponse(account.data, safe= False)
+
+@api_view(['POST'])
+@csrf_exempt
+def get_transactions(request):
+    data = dict(request.data)
+    data_fethched = transaction.objects.filter(sender = (data['account_number'][0]))
+    serializer = TransactionsSerializer(data_fethched, many=True)
+    return JsonResponse(serializer.data, safe= False)
+
+@api_view(['POST'])
+@csrf_exempt
+def validate_transactions(request):
+    data = dict(request.data)
+    serializer = PruneBank_AccountSerializer(
+        bank_account.objects.filter(account_number = data['sender'][0]), 
+        many = True
+        )
+    account = serializer.data[0]
+    amount = float(data['amount'][0])
+    if(data['currency'][0] == 'USD'):
+        if(amount >= account['balance_USD']):
+            print('Insufficient funds USD.')
+        else:
+            print('sufficient funds USD')
+    else:
+        if(amount >= account['balance_ZIG']):
+            print('Insufficient funds ZIG.')
+        else:
+            print('sufficient funds ZIG')
+    return Response({'loading' : 'loading'})

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { TxtInput } from '../reusables/components'
+import { InfoDiv, TxtInput } from '../reusables/components'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import AuthContext from '../Context/AuthContext'
@@ -12,6 +12,8 @@ export const Login = () => {
   const [accountNumber, setAccountNumber] = useState('')
   const [registeredAccount, setRegisteredAccount] = useState('')
   const [register, setRegister] = useState(false)
+  const [openDiv, setOpenDiv] =useState(false)
+  const[message,setMessage] = useState('')
   const Navigate = useNavigate()
   const Tokens = localStorage.getItem('authTokens')
 
@@ -69,7 +71,15 @@ export const Login = () => {
       <Account
         register={register}
         setRegister={setRegister}
-        setRegisteredAccount = {setRegisteredAccount}
+        setRegisteredAccount={setRegisteredAccount}
+        setMessage = {setMessage}
+        setOpenDiv = {setOpenDiv}
+      />
+      
+      <InfoDiv
+        openDiv={openDiv}
+        setOpenDiv = {setOpenDiv}
+        message = {message}
       />
 
       <div className='fixed z-10  backdrop-blur-lg h-[60%] w-[36%] top-[20%] left-[32%]'>'

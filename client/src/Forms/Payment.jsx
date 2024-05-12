@@ -1,18 +1,38 @@
 import React, { useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { SelectInput, TxtArea, TxtInput, TxtInputRequired } from '../reusables/components'
+import { toast } from 'react-toastify'
+import { DataSubmission } from '../reusables/Requests'
 
-const Payment = ({ payment, setpayment }) => {
+const Payment = ({ payment, setpayment, user }) => {
 
     const [accountNumber, setAccountNumber] = useState('')
     const [reason, setReason] = useState('')
-    const [amount, setAmount] = useState('')
+    const [amount, setAmount] = useState(0.0)
     const [currency, setCurrency] = useState('')
 
     const currencyOptions = [
         { option: 'USD' },
         { option: 'ZIG' }
     ]
+
+    const submit = async () => {
+        const feedback = toast.loading('Processing Request...')
+        if(accountNumber.length === 0 || reason.length === 0 || amount === 0 || currency.length === 0){
+            toast.update(feedback, { render: "Fill in all the details below", type: "warning", isLoading: false, autoClose: 4000 } )
+        }else{
+            toast.update(feedback, { render: "Validating transaction...", type: "warning", isLoading: true} )
+            var res = await DataSubmission(
+                'POST',
+                 '/payment-api/validate-transaction/',
+                  {
+                    'sender' : user.username,
+                    'recipient' : accountNumber,
+                    'amount' : amount,
+                    'currency' : currency
+                  })
+        }
+    }
     return (
         <div
             className={payment === true ?
@@ -57,7 +77,7 @@ const Payment = ({ payment, setpayment }) => {
                         type={'text'}
                     />
                     <div className='w-full col-span-full items-center p-8 border-t-2 border-green-800 border-solid'>
-                        <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl'>
+                        <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl' onClick={() => {submit()}}>
                             Submit
                         </button>
                     </div>

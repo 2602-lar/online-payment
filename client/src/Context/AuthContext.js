@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
                 console.log(res.data)
                 localStorage.setItem('authTokens', JSON.stringify(res.data))
                 response = res
-                Navigate('/home/')
+                Navigate('/home')
             }
          
         }).catch((err) => {

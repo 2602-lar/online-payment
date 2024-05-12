@@ -4,7 +4,7 @@ import { SelectInput, TxtArea, TxtInput, TxtInputRequired } from '../reusables/c
 import { DataSubmission } from '../reusables/Requests'
 import { toast } from 'react-toastify'
 
-const Account = ({ register, setRegister, setRegisteredAccount }) => {
+const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setOpenDiv }) => {
     const [name, setName] = useState('')
     const [middleName, setMiddleName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -90,8 +90,10 @@ const Account = ({ register, setRegister, setRegisteredAccount }) => {
             var res = await DataSubmission(method, endpoint, body)
             if (res[1]) {
                 if (res[1].resText === "Successfull") {
-                    var response = await DataSubmission('POST', '/payment-api/user/', { 'id_number': res[0].res.data.id_number})
-                    console.log(response)
+                    var response = await DataSubmission('POST', '/payment-api/user/', { 'id_number': res[0].res.data.id_number })
+                    setMessage('Account created successfully! \n. Your account number is : ' + response[0].res.data[0].user.username)
+                    setOpenDiv(true)
+                    setRegister(!register)
                 }
             }
 
