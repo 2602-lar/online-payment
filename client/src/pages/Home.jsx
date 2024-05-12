@@ -7,6 +7,8 @@ export const Home = () => {
 
     let { logoutUser, user } = useContext(AuthContext)
     const [headerText, setHeaderText] = useState('')
+
+    
     console.log(user)
     return (
         <div className='fixed w-screen h-screen flex'>

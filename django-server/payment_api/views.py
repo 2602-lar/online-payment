@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
+from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
@@ -7,6 +8,7 @@ from .serializers import *
 from .auxillary import *
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 # CRUD view for users
@@ -26,11 +28,10 @@ class UserViewSet(viewsets.ModelViewSet):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-    @api_view(['GET', 'POST'])
-    def users(request):
-        queryset = User.objects.all()
-        serializers = UserSerializer(queryset, many=True)
-        return Response(serializers.data)
+
+        #queryset = User.objects.all()
+        #serializers = UserSerializer(queryset, many=True)
+        #return Response(serializers.data)
 
 ##CRUD view for account details
 class Account_detailsViewSet(viewsets.ModelViewSet):
@@ -69,12 +70,11 @@ class Account_detailsViewSet(viewsets.ModelViewSet):
                 "user_permissions": []
             })
             if user.is_valid():
+                print('good')
                 user.save()
                 user_details = User.objects.get(username = account_number)
                 account_user.user = user_details
                 account_user.save()
-        
-        
         
     def perform_update(self, serializer):
         serializer.save()
@@ -84,7 +84,7 @@ class Account_detailsViewSet(viewsets.ModelViewSet):
          account.delete()
          return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+     
 ##CRUD view for bank account
 class Bank_accountViewSet(viewsets.ModelViewSet):
     
@@ -161,3 +161,11 @@ class MessagesViewSet(viewsets.ModelViewSet):
          messages.delete()
          return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['POST'])
+@csrf_exempt
+def get_user(request):
+    data = dict(request.data)
+    account = account_detail.objects.filter(id_number = (data['id_number'][0]))
+    account = Account_DetailsSerializer(account, many=True)
+    return JsonResponse(account.data, safe= False)

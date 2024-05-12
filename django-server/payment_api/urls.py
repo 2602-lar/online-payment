@@ -1,17 +1,18 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import *
+from . import views
 
 router = DefaultRouter()
 # router.register(r'users', views.UserViewSet,basename="user")
-router.register(r'account-details', Account_detailsViewSet ,basename="account-details")
-router.register(r'bank-account', Bank_accountViewSet, basename="bank-account")
-router.register(r'users', UserViewSet, basename="user")
-router.register(r'transaction', TransactionsViewSet, basename="transaction")
-router.register(r'account-transaction', Account_TransactionsViewSet, basename="account-transaction")
-router.register(r'message', MessagesViewSet, basename="message")
+router.register(r'account-details', views.Account_detailsViewSet ,basename="account-details")
+router.register(r'bank-account', views.Bank_accountViewSet, basename="bank-account")
+router.register(r'users', views.UserViewSet, basename="user")
+router.register(r'transaction', views.TransactionsViewSet, basename="transaction")
+router.register(r'account-transaction', views.Account_TransactionsViewSet, basename="account-transaction")
+router.register(r'message', views.MessagesViewSet, basename="message")
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('user/', views.get_user, name = 'user'),
 ]
 

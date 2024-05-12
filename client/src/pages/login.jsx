@@ -10,6 +10,7 @@ export const Login = () => {
   let { loginUser } = useContext(AuthContext)
   const [password, setPassword] = useState('')
   const [accountNumber, setAccountNumber] = useState('')
+  const [registeredAccount, setRegisteredAccount] = useState('')
   const [register, setRegister] = useState(false)
   const Navigate = useNavigate()
   const Tokens = localStorage.getItem('authTokens')
@@ -68,6 +69,7 @@ export const Login = () => {
       <Account
         register={register}
         setRegister={setRegister}
+        setRegisteredAccount = {setRegisteredAccount}
       />
 
       <div className='fixed z-10  backdrop-blur-lg h-[60%] w-[36%] top-[20%] left-[32%]'>'

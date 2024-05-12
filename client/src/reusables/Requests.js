@@ -29,14 +29,13 @@ export const DataSubmission = async (method, endPoint, formData, caller) => {
       var serverResponse = err.response.data
       Object.keys(serverResponse).map(
         key => {
-          toast.error(key + ' : ' + serverResponse[key])
+          //toast.error(key + ' : ' + serverResponse[key])
         }
       )
     } else {
       toast.error('Check network status. If problem persists contact service provider.')
     }
   })
-  console.log(response)
   return (
     response
   )
