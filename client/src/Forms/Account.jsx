@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { SelectInput, TxtArea, TxtInput, TxtInputRequired } from '../reusables/components'
+import {DataSubmission} from '../reusables/Requests'
+import { toast } from 'react-toastify'
 
 const Account = ({ register, setRegister }) => {
     const [name, setName] = useState('')
@@ -36,6 +38,58 @@ const Account = ({ register, setRegister }) => {
         { option: 'Widow/Widower' },
         { option: 'Divorced' }
     ]
+
+    const Submit = async (e) => {
+        const feedback = toast.loading("loading...")
+        const body = new FormData()
+        if(pin === '' || password === '' || name === '' || nokName === '' || phoneHome === '' || idNumber === ''){
+            toast.update(feedback, { render: "Please fill in all the text boxes with a black labels !", type: "warning", isLoading: false, autoClose: 7000 })
+        }else if(pin !== pinCon){
+            toast.update(feedback, { render: "Pin provided does not match with pin confirmation!", type: "warning", isLoading: false, autoClose: 7000 })
+        }else if(password !== passwordCon){
+            toast.update(feedback, { render: "Password and password confirmation does not match !", type: "warning", isLoading: false, autoClose: 7000 })
+        }else{
+            toast.update(feedback, { render: "Details submitted for processing", type: "success", isLoading: false, autoClose: 2000 })
+            var endpoint = ''
+            var method = ''
+            var applicationId = 'cal..'
+            var appId = null
+            if (appId) {
+              //method = 'PUT'
+              //endpoint = '/application/applications/' + applicationData.id + '/'
+             // applicationId = appId
+            } else {
+              method = 'POST'
+              endpoint = '/payment-api/account-details/'
+            }
+            const currentDate = new Date()
+            let date = currentDate.toJSON().slice(0, 10);
+            let nDate = date.slice(0, 4) + '-' + date.slice(5, 7) + '-'
+                +  date.slice(8, 10)
+            body.append('id_number', idNumber)
+            body.append('name', name)
+            body.append('middle_name', middleName)
+            body.append('last_name', lastName)
+            body.append('gender', gender)
+            body.append('marital_status', maritalStatus)
+            body.append('dob', dob)
+            body.append('nationality', nationality)
+            body.append('email', email)
+            body.append('phone_home', phoneHome)
+            body.append('phone_work', phoneWork)
+            body.append('address', address)
+            body.append('nok_name', nokName)
+            body.append('nok_relationship', nokRelationship)
+            body.append('nok_phone', nokPhone)
+            body.append('nok_email', nokEmail)
+            body.append('nok_address', nokAddress)
+            body.append('password', password)
+            body.append('date_created', nDate)
+            body.append('pin', pin)
+
+            var res = await DataSubmission(method, endpoint, body)
+        }
+    }
 
     const Sectionhead = ({ text }) => {
         return (
@@ -114,7 +168,7 @@ const Account = ({ register, setRegister }) => {
                     />
 
                     <TxtInputRequired
-                        label={'Id number'}
+                        label={'National Identity Number'}
                         value={idNumber}
                         setvalue={setIdNumber}
                         type={'text'}
@@ -221,7 +275,7 @@ const Account = ({ register, setRegister }) => {
                         placeholder={'Enter password again to confirm'}
                     />
                     <div className='w-full col-span-full items-center p-8 border-t-2 border-green-800 border-solid'>
-                        <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl'>
+                        <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl' onClick={e => {Submit(e)}}>
                             Submit
                         </button>
                     </div>

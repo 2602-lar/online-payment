@@ -23,10 +23,10 @@ export const TxtInput = ({ label, type, value, setvalue, id, placeholder }) => {
 export const TxtArea = ({ label, type, value, setvalue, id, placeholder }) => {
     return (
         <div className='flex flex-col self-center w-full py-2'>
-            <div className="text-white">
+            <div className="text-black">
                 <label>{label}</label>
             </div>
-            <div className="border-2 border-gray-400 border-solid rounded-lg">
+            <div className="border-2 border-black border-solid rounded-lg">
                 <textarea
                     className='w-full p-2 rounded-lg h-52'
                     id={id}

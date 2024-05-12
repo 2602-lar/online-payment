@@ -3,3 +3,5 @@ djangorestframework
 django-cors-headers 
 djangorestframework-simplejwt
  
+
+vivo mac 8e:e5:ff:eb:1b:bc

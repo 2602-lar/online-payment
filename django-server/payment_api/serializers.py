@@ -7,6 +7,10 @@ class UserSerializer(serializers.ModelSerializer) :
         # fields='__all__'
         exclude=['password']
 
+class CreateUserSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model=User
+        fields='__all__'
 #account deatails serializers
 class Account_DetailsSerializer(serializers.ModelSerializer) :
     user=UserSerializer(many=False,read_only=True)

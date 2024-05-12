@@ -4,6 +4,9 @@ from rest_framework import viewsets
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from .serializers import *
+from .auxillary import *
+from django.contrib.auth.hashers import make_password
+from datetime import datetime
 
 # Create your views here.
 # CRUD view for users
@@ -38,7 +41,40 @@ class Account_detailsViewSet(viewsets.ModelViewSet):
     serializer_class = PruneAccount_DetailsSerializer
     
     def perform_create(self, serializer):
+        request_data = dict(self.request.data)
         serializer.save()
+        account_number = generate_id(bank_account, "ACC")
+        account_user = account_detail.objects.get(id_number = serializer.data['id_number'])
+        bank_account_create = PruneBank_AcountSerializer(data = {
+            'account_number' : account_number,
+            'account_owner' : serializer.data['id_number'],
+            'balance_USD' : 0.0,
+            'balance_ZIG' : 0.0,
+        })
+        if bank_account_create.is_valid():
+            bank_account_create.save()
+            password = make_password(request_data['pin'][0])
+            print(password)
+            user = CreateUserSerializer(data = {
+                'username' : account_number,
+                'password' : password,
+                "is_superuser": False,
+                "first_name": "",
+                "last_name": "",
+                "email": "",
+                "is_staff": True,
+                "is_active": True,
+                "date_joined": datetime.now(),
+                "groups": [],
+                "user_permissions": []
+            })
+            if user.is_valid():
+                user.save()
+                user_details = User.objects.get(username = account_number)
+                account_user.user = user_details
+                account_user.save()
+        
+        
         
     def perform_update(self, serializer):
         serializer.save()
@@ -55,7 +91,7 @@ class Bank_accountViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
     
     queryset = bank_account.objects.all()
-    serializer_class = Bank_AccountSerializer
+    serializer_class = PruneBank_AcountSerializer
     
     def perform_create(self, serializer):
         serializer.save()
@@ -74,7 +110,7 @@ class TransactionsViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
     
     queryset = transaction.objects.all()
-    serializer_class = TransactionsSerializer
+    serializer_class = PruneTransactionsSerializer
     
     def perform_create(self, serializer):
         serializer.save()
@@ -93,7 +129,7 @@ class Account_TransactionsViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
     
     queryset = account_transaction.objects.all()
-    serializer_class = Account_TransactionsSerializer
+    serializer_class = PruneAccount_TransactionsSerializer
     
     def perform_create(self, serializer):
         serializer.save()
@@ -112,7 +148,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
     
     queryset = message.objects.all()
-    serializer_class = MessageSerializer
+    serializer_class = PruneMessageSerializer
     
     def perform_create(self, serializer):
         serializer.save()
