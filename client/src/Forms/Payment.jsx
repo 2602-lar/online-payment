@@ -31,6 +31,16 @@ const Payment = ({ payment, setpayment, user }) => {
                     'amount' : amount,
                     'currency' : currency
                   })
+            
+            if(res[1].resText === "Successfull"){
+                if(res[0].res.data.message === 'all good'){
+                    toast.update(feedback, { render: "Transaction Validation Complete", type: "success", isLoading: false, autoClose : 3000} )
+                }else{
+                    toast.update(feedback, { render: res[0].res.data.message, type: "error", isLoading: false, autoClose : 4000} )
+                }
+            }else{
+                toast.update(feedback, { render: "Error! Please try again later", type: "error", isLoading: false, autoClose : 3000} )
+            }
         }
     }
     return (

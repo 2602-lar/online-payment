@@ -178,6 +178,7 @@ def get_transactions(request):
     serializer = TransactionsSerializer(data_fethched, many=True)
     return JsonResponse(serializer.data, safe= False)
 
+#api view for validating transaction
 @api_view(['POST'])
 @csrf_exempt
 def validate_transactions(request):
@@ -188,14 +189,36 @@ def validate_transactions(request):
         )
     account = serializer.data[0]
     amount = float(data['amount'][0])
+    
+    #validate for USD
     if(data['currency'][0] == 'USD'):
         if(amount >= account['balance_USD']):
-            print('Insufficient funds USD.')
+            return Response({'message' : 'Insufficient funds USD'})
         else:
-            print('sufficient funds USD')
+            serializer = PruneBank_AccountSerializer(
+                    bank_account.objects.filter(account_number = data['recipient'][0]), 
+                    many = True
+                )
+            #validating recipient account
+            if (len(serializer.data) < 1):
+                return Response({
+                    'message' : 'Recipient account not found'
+                })
+            else:
+                return Response({'message' : 'all good'})
+    
+    #validate for ZIG     
     else:
         if(amount >= account['balance_ZIG']):
-            print('Insufficient funds ZIG.')
+            return Response({'message' : 'Insufficient funds ZIG.'})
         else:
-            print('sufficient funds ZIG')
-    return Response({'loading' : 'loading'})
+            serializer = PruneBank_AccountSerializer(
+                    bank_account.objects.filter(account_number = data['recipient'][0]), 
+                    many = True
+                )
+            #validating recipient account
+            if (len(serializer.data) < 1):
+                return Response({'message' : 'Recipient account not found'})
+            else:
+                return Response({'message' : 'all good'})
+    
