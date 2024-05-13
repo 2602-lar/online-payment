@@ -35,6 +35,7 @@ class transaction(models.Model):
     reference_number = models.CharField(max_length=100, primary_key=True)
     sender = models.ForeignKey(bank_account,related_name='sender', on_delete=models.CASCADE)
     recipient = models.ForeignKey(bank_account,related_name='recipient', on_delete=models.CASCADE)
+    reason = models.CharField(max_length=255, default='Gift')
     amount = models.FloatField()
     currency = models.CharField(max_length=100)
     sender_opening_balance = models.FloatField()

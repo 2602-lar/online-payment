@@ -55,7 +55,8 @@ const Payment = ({ payment, setpayment, user }) => {
                                 'amount': amount,
                                 'currency': currency,
                                 'pin': pin,
-                                'date' : nDate
+                                'date' : nDate,
+                                'reason' : reason
                             })
                         if (transactionRes[1].resText === "Successfull"){
                             if(transactionRes[0].res.data.message === 'Transaction failed!. Incorrect pin provided'){

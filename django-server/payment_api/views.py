@@ -263,7 +263,8 @@ def process_transactions(request):
             'sender_opening_balance' : sender_balance,
             'recipient_opening_balance' : recipient_balance,
             'sender_closing_balance' : sender_closing_balance,
-            'recipient_closing_balance' : recipient_closing_balance
+            'recipient_closing_balance' : recipient_closing_balance,
+            'reason' : data['reason'][0]
         }) 
         if transaction_create.is_valid():
             transaction_create.save()
@@ -287,17 +288,6 @@ def process_transactions(request):
                 sender_record.save()
             return Response({'message' : 'Funds transfered successfully.'})   
         else:
-            print('invalid serializer')
-            print('date : ', data['date'][0])
-            print('reference_number : ',reference_number)
-            print('sender : ',data['sender'][0])
-            print('recipient : ',data['recipient'][0])
-            print('amount : ',amount)
-            print('currency : ',data['currency'][0])
-            print('sender_opening_balance : ',sender_balance)
-            print('recipient_opening_balance : ',recipient_balance)
-            print('sender_closing_balance : ',sender_closing_balance)
-            print('recipient_closing_balance : ',recipient_closing_balance)
             return Response({'message' : 'Transaction not complete!'})        
     else:
         return Response({'message' : 'Transaction failed!. Incorrect pin provided'})
