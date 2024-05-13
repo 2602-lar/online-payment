@@ -18,7 +18,7 @@ export const Home = () => {
                 </div>
                 <NavTab
                     label={'Dashboard'}
-                    url={'/home/'}
+                    url={'/home'}
                     setValue={setHeaderText}
                 />
                 <NavTab

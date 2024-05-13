@@ -9,6 +9,7 @@ from .auxillary import *
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import check_password 
 
 # Create your views here.
 # CRUD view for users
@@ -221,4 +222,83 @@ def validate_transactions(request):
                 return Response({'message' : 'Recipient account not found'})
             else:
                 return Response({'message' : 'all good'})
+
+#api view for validating transaction
+@api_view(['POST'])
+@csrf_exempt
+def process_transactions(request):
+    data = dict(request.data)
+    user_password = User.objects.filter(username = data['sender'][0])
+    user_serializer = CreateUserSerializer(user_password, many=True)
+    user_password = user_serializer.data[0]['password']
+    password_valid = check_password(data['pin'][0], user_password )
+    if check_password(data['pin'][0], user_password ) :
+        #getting sender 
+        sender_object = bank_account.objects.filter(account_number = data['sender'][0])
+        recipient_object = bank_account.objects.filter(account_number = data['recipient'][0])
+        sender = PruneBank_AccountSerializer(sender_object, many = True).data[0]
+        recipient = PruneBank_AccountSerializer(recipient_object, many = True).data[0]
+        if data['currency'][0] == 'USD' :
+            sender_balance = sender['balance_USD']
+            recipient_balance = recipient['balance_USD']
+        else:
+            sender_balance = sender['balance_ZIG']
+            recipient_balance = recipient['balance_ZIG']            
+        
+        amount = float(data['amount'][0])
+        sender_closing_balance = sender_balance - amount
+        recipient_closing_balance = recipient_balance + amount 
+        
+        #generate referencenumber
+        reference_number = generate_id(transaction, 'REF')
+        
+        #creating transaction
+        transaction_create = PruneTransactionsSerializer(data = {
+            'date' : data['date'][0],
+            'reference_number' : reference_number,
+            'sender' : data['sender'][0],
+            'recipient' : data['recipient'][0],
+            'amount' : amount,
+            'currency' : data['currency'][0],
+            'sender_opening_balance' : sender_balance,
+            'recipient_opening_balance' : recipient_balance,
+            'sender_closing_balance' : sender_closing_balance,
+            'recipient_closing_balance' : recipient_closing_balance
+        }) 
+        if transaction_create.is_valid():
+            transaction_create.save()
+            if data['currency'][0] == 'USD' :
+                #updating bank accounts
+                recipient_record = bank_account.objects.get(account_number = data['recipient'][0])
+                recipient_record.balance_USD = recipient_closing_balance
+                recipient_record.save()
+                
+                sender_record = bank_account.objects.get(account_number = data['sender'][0])
+                sender_record.balance_USD = sender_closing_balance
+                sender_record.save()
+            else:
+                #updating bank accounts
+                recipient_record = bank_account.objects.get(account_number = data['recipient'][0])
+                recipient_record.balance_ZIG = recipient_closing_balance
+                recipient_record.save()
+                
+                sender_record = bank_account.objects.get(account_number = data['sender'][0])
+                sender_record.balance_ZIG = sender_closing_balance
+                sender_record.save()
+            return Response({'message' : 'Funds transfered successfully.'})   
+        else:
+            print('invalid serializer')
+            print('date : ', data['date'][0])
+            print('reference_number : ',reference_number)
+            print('sender : ',data['sender'][0])
+            print('recipient : ',data['recipient'][0])
+            print('amount : ',amount)
+            print('currency : ',data['currency'][0])
+            print('sender_opening_balance : ',sender_balance)
+            print('recipient_opening_balance : ',recipient_balance)
+            print('sender_closing_balance : ',sender_closing_balance)
+            print('recipient_closing_balance : ',recipient_closing_balance)
+            return Response({'message' : 'Transaction not complete!'})        
+    else:
+        return Response({'message' : 'Transaction failed!. Incorrect pin provided'})
     

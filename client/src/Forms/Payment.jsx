@@ -18,28 +18,64 @@ const Payment = ({ payment, setpayment, user }) => {
 
     const submit = async () => {
         const feedback = toast.loading('Processing Request...')
-        if(accountNumber.length === 0 || reason.length === 0 || amount === 0 || currency.length === 0){
-            toast.update(feedback, { render: "Fill in all the details below", type: "warning", isLoading: false, autoClose: 4000 } )
-        }else{
-            toast.update(feedback, { render: "Validating transaction...", type: "warning", isLoading: true} )
+        if (accountNumber.length === 0 || reason.length === 0 || amount === 0 || currency.length === 0) {
+            toast.update(feedback, { render: "Fill in all the details below", type: "warning", isLoading: false, autoClose: 4000 })
+        } else {
+            toast.update(feedback, { render: "Validating transaction...", type: "warning", isLoading: true })
             var res = await DataSubmission(
                 'POST',
-                 '/payment-api/validate-transaction/',
-                  {
-                    'sender' : user.username,
-                    'recipient' : accountNumber,
-                    'amount' : amount,
-                    'currency' : currency
-                  })
-            
-            if(res[1].resText === "Successfull"){
-                if(res[0].res.data.message === 'all good'){
-                    toast.update(feedback, { render: "Transaction Validation Complete", type: "success", isLoading: false, autoClose : 3000} )
-                }else{
-                    toast.update(feedback, { render: res[0].res.data.message, type: "error", isLoading: false, autoClose : 4000} )
+                '/payment-api/validate-transaction/',
+                {
+                    'sender': user.username,
+                    'recipient': accountNumber,
+                    'amount': amount,
+                    'currency': currency
+                })
+
+            if (res[1].resText === "Successfull") {
+                if (res[0].res.data.message === 'all good') {
+                    toast.update(feedback, { render: "Transaction Validation Complete", type: "success", isLoading: false, autoClose: 3000 })
+                    let pin = prompt(
+                        "Sending : " + currency + amount + " to account " + accountNumber + ". Please provide pin below to confirm transaction."
+                    )
+                    if (pin === null || pin === "") {
+                        toast.warning("Transaction cancelled by user !")
+                    } else {
+                        const notice = toast.loading('Processing Transaction...')
+                        const currentDate = new Date()
+                        let date = currentDate.toJSON().slice(0, 10);
+                        let nDate = date.slice(0, 4) + '-' + date.slice(5, 7) + '-'
+                            + date.slice(8, 10)
+                        var transactionRes = await DataSubmission(
+                            'POST',
+                            '/payment-api/process-transaction/',
+                            {
+                                'sender': user.username,
+                                'recipient': accountNumber,
+                                'amount': amount,
+                                'currency': currency,
+                                'pin': pin,
+                                'date' : nDate
+                            })
+                        if (transactionRes[1].resText === "Successfull"){
+                            if(transactionRes[0].res.data.message === 'Transaction failed!. Incorrect pin provided'){
+                                toast.update(notice, { render: transactionRes[0].res.data.message , type: "error", isLoading: false, autoClose: 4000 })
+                            }else{
+                                if(transactionRes[0].res.data.message === 'Funds transfered successfully.'){
+                                    var type = 'success'
+                                    setpayment(!payment)
+                                }else{
+                                    type = 'error'
+                                }
+                                toast.update(notice, { render: transactionRes[0].res.data.message , type: type, isLoading: false, autoClose: 4000 })
+                            }
+                        }
+                    }
+                } else {
+                    toast.update(feedback, { render: res[0].res.data.message, type: "error", isLoading: false, autoClose: 4000 })
                 }
-            }else{
-                toast.update(feedback, { render: "Error! Please try again later", type: "error", isLoading: false, autoClose : 3000} )
+            } else {
+                toast.update(feedback, { render: "Error! Please try again later", type: "error", isLoading: false, autoClose: 3000 })
             }
         }
     }
@@ -87,7 +123,7 @@ const Payment = ({ payment, setpayment, user }) => {
                         type={'text'}
                     />
                     <div className='w-full col-span-full items-center p-8 border-t-2 border-green-800 border-solid'>
-                        <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl' onClick={() => {submit()}}>
+                        <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl' onClick={() => { submit() }}>
                             Submit
                         </button>
                     </div>

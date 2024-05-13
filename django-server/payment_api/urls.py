@@ -15,6 +15,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('user/', views.get_user, name = 'user'),
     path('client-transactions/', views.get_transactions, name = 'client-transactions'),
-    path('validate-transaction/', views.validate_transactions, name = 'validate-transaction')
+    path('validate-transaction/', views.validate_transactions, name = 'validate-transaction'),
+    path('process-transaction/', views.process_transactions, name = 'process-transaction' )
 ]
 

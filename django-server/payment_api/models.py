@@ -33,8 +33,8 @@ class bank_account(models.Model):
 class transaction(models.Model):
     date = models.DateField()
     reference_number = models.CharField(max_length=100, primary_key=True)
-    sender = models.ForeignKey(account_detail,related_name='sender', on_delete=models.CASCADE)
-    recipient = models.ForeignKey(account_detail,related_name='recipient', on_delete=models.CASCADE)
+    sender = models.ForeignKey(bank_account,related_name='sender', on_delete=models.CASCADE)
+    recipient = models.ForeignKey(bank_account,related_name='recipient', on_delete=models.CASCADE)
     amount = models.FloatField()
     currency = models.CharField(max_length=100)
     sender_opening_balance = models.FloatField()
