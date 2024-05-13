@@ -57,8 +57,8 @@ class account_transaction(models.Model):
     
 class message(models.Model):
     date = models.DateField()
-    account = models.ForeignKey(account_detail, on_delete=models.CASCADE)
+    account = models.ForeignKey(bank_account, on_delete=models.CASCADE)
     message = models.TextField()
-    Topic = models.CharField(max_length=255)
-    reply = models.TextField()
-    reply_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    topic = models.CharField(max_length=255)
+    reply = models.TextField(null=True)
+    reply_by = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
