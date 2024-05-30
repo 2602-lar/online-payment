@@ -55,6 +55,28 @@ class account_transaction(models.Model):
     usd_closing_balance = models.FloatField()
     zig_closing_balance = models.FloatField()
     
+class Withdrawal(models.Model):
+    date = models.DateField()
+    reference_number = models.CharField(max_length=100, primary_key=True)
+    account = models.ForeignKey(bank_account, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    currency = models.CharField(max_length=100)
+    usd_opening_balance = models.FloatField()
+    zig_balance = models.FloatField()
+    usd_closing_balance = models.FloatField()
+    zig_closing_balance = models.FloatField()
+    
+class Deposit(models.Model):
+    date = models.DateField()
+    reference_number = models.CharField(max_length=100, primary_key=True)
+    account = models.ForeignKey(bank_account, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    currency = models.CharField(max_length=100)
+    usd_opening_balance = models.FloatField()
+    zig_balance = models.FloatField()
+    usd_closing_balance = models.FloatField()
+    zig_closing_balance = models.FloatField()
+    
 class message(models.Model):
     date = models.DateField()
     account = models.ForeignKey(bank_account, on_delete=models.CASCADE)

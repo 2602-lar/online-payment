@@ -79,3 +79,30 @@ class PruneMessageSerializer(serializers.ModelSerializer) :
     class Meta:
         model = message
         fields = '__all__'
+        
+        
+class WithdrawalSerializer(serializers.ModelSerializer) :
+    account = Bank_AccountSerializer(many=False,read_only=True)
+    
+    class Meta:
+        model = Withdrawal
+        fields = '__all__'
+        
+class PruneWithdrawalSerializer(serializers.ModelSerializer) :
+    
+    class Meta:
+        model = Withdrawal
+        fields = '__all__'
+
+class DepositSerializer(serializers.ModelSerializer) :
+    account = Bank_AccountSerializer(many=False,read_only=True)
+    
+    class Meta:
+        model = Deposit
+        fields = '__all__'
+        
+class PruneDepositSerializer(serializers.ModelSerializer) :
+    
+    class Meta:
+        model = Deposit
+        fields = '__all__'

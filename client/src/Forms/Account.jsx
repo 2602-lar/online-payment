@@ -4,28 +4,28 @@ import { SelectInput, TxtArea, TxtInput, TxtInputRequired } from '../reusables/c
 import { DataSubmission } from '../reusables/Requests'
 import { toast } from 'react-toastify'
 
-const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setOpenDiv }) => {
-    const [name, setName] = useState('')
-    const [middleName, setMiddleName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [idNumber, setIdNumber] = useState('')
-    const [gender, setGender] = useState('')
-    const [maritalStatus, setMaritalStatus] = useState('')
-    const [dob, setDob] = useState('')
-    const [nationality, setNationality] = useState('')
-    const [email, setEmail] = useState('')
-    const [phoneHome, setPhoneHome] = useState('')
-    const [phoneWork, setPhoneWork] = useState('')
-    const [address, setAddress] = useState('')
-    const [nokName, setNokName] = useState('')
-    const [nokRelationship, setNokRelationship] = useState('')
-    const [nokPhone, setNokPhone] = useState('')
-    const [nokEmail, setNokEmail] = useState('')
-    const [nokAddress, setNokAddress] = useState('')
+const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setOpenDiv, data }) => {
+    const [name, setName] = useState(data ? data.nama : '')
+    const [middleName, setMiddleName] = useState(data ? data.middle_name : '') 
+    const [lastName, setLastName] = useState(data ? data.last_name : '')
+    const [idNumber, setIdNumber] = useState(data ? data.id_number : '')
+    const [gender, setGender] = useState(data ? data.gender : '')
+    const [maritalStatus, setMaritalStatus] = useState(data ? data.marital_status : '')
+    const [dob, setDob] = useState(data ? data.dob : '')
+    const [nationality, setNationality] = useState(data ? data.nationality : '')
+    const [email, setEmail] = useState(data ? data.email : '')
+    const [phoneHome, setPhoneHome] = useState(data ? data.phone_home : '')
+    const [phoneWork, setPhoneWork] = useState(data ? data.phone_work : '')
+    const [address, setAddress] = useState(data ? data.address : '')
+    const [nokName, setNokName] = useState(data ? data.nok_name : '')
+    const [nokRelationship, setNokRelationship] = useState(data ? data.nok_relationship : '')
+    const [nokPhone, setNokPhone] = useState(data ? data.nok_phone : '')
+    const [nokEmail, setNokEmail] = useState(data ? data.nok_email : '')
+    const [nokAddress, setNokAddress] = useState(data ? data.nok_address : '')
     const [pin, setPin] = useState('')
     const [pinCon, setPinCon] = useState('')
-    const [password, setPassword] = useState('')
-    const [passwordCon, setPasswordCon] = useState('')
+    const [password, setPassword] = useState(data ? data.password : '')
+    const [passwordCon, setPasswordCon] = useState(data ? data.password : '')
 
     const genderOptions = [
         { option: 'male' },

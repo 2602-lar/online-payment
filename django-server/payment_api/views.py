@@ -64,7 +64,7 @@ class Account_detailsViewSet(viewsets.ModelViewSet):
                 "first_name": "",
                 "last_name": "",
                 "email": "",
-                "is_staff": True,
+                "is_staff": False,
                 "is_active": True,
                 "date_joined": datetime.now(),
                 "groups": [],
@@ -175,7 +175,12 @@ def get_user(request):
 @csrf_exempt
 def get_transactions(request):
     data = dict(request.data)
-    data_fethched = transaction.objects.filter(sender = (data['account_number'][0]))
+    print(data)
+    account = data['account_number'][0]
+    if account == 'admin':
+        data_fethched = transaction.objects.all()
+    else:
+        data_fethched = transaction.objects.filter(sender = (account))
     serializer = TransactionsSerializer(data_fethched, many=True)
     return JsonResponse(serializer.data, safe= False)
 
@@ -292,3 +297,11 @@ def process_transactions(request):
     else:
         return Response({'message' : 'Transaction failed!. Incorrect pin provided'})
     
+#api view for validating transaction
+@api_view(['POST'])
+@csrf_exempt
+def madhiri(request):
+    user_id = dict(request.data)['user_id'][0]
+    user_details = account_detail.objects.get(user = user_id)
+    print(user_id)
+    return Response({'message' : 'Transaction failed!. Incorrect pin provided'})

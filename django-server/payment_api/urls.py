@@ -16,6 +16,7 @@ urlpatterns = [
     path('user/', views.get_user, name = 'user'),
     path('client-transactions/', views.get_transactions, name = 'client-transactions'),
     path('validate-transaction/', views.validate_transactions, name = 'validate-transaction'),
-    path('process-transaction/', views.process_transactions, name = 'process-transaction' )
+    path('process-transaction/', views.process_transactions, name = 'process-transaction' ),
+    path('madhiri/', views.madhiri, name = 'madhiri')
 ]
 

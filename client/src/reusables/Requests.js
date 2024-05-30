@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from "react-toastify";
 
-export const proxy = 'http://127.0.0.1:8000'
+export const proxy = 'http://127.0.0.1:8000/'
 export const DataSubmission = async (method, endPoint, formData, caller) => {
   let response = []
   await axios({

@@ -7,4 +7,6 @@ admin.site.register(bank_account)
 admin.site.register(transaction)
 admin.site.register(account_transaction)
 admin.site.register(message)
+admin.site.register(Withdrawal)
+admin.site.register(Deposit)
 

@@ -8,7 +8,7 @@ export const Home = () => {
     let { logoutUser, user } = useContext(AuthContext)
     const [headerText, setHeaderText] = useState('')
 
-    
+
     console.log(user)
     return (
         <div className='fixed w-screen h-screen flex'>
@@ -21,21 +21,57 @@ export const Home = () => {
                     url={'/home'}
                     setValue={setHeaderText}
                 />
-                <NavTab
-                    label={'Transactions'}
-                    url={'/home/transactions'}
-                    setValue={setHeaderText}
-                />
-                <NavTab
-                    label={'Profile'}
-                    url={'/home/profile'}
-                    setValue={setHeaderText}
-                />
-                <NavTab
-                    label={'Contact Us'}
-                    url={'/home/contact-us'}
-                    setValue={setHeaderText}
-                />
+                {!user.is_staff &&
+                    <NavTab
+                        label={'Transactions'}
+                        url={'/home/transactions'}
+                        setValue={setHeaderText}
+                    />
+
+                }
+                {user.is_staff &&
+                    <>
+                        <NavTab
+                            label={'Deposits'}
+                            url={'/home/deposits'}
+                            setValue={setHeaderText}
+                        />
+                        <NavTab
+                            label={'Withdrawals'}
+                            url={'/home/withdrawals'}
+                            setValue={setHeaderText}
+                        />
+                        <NavTab
+                            label={'Transactions'}
+                            url={'/home/transactions-admin'}
+                            setValue={setHeaderText}
+                        />
+                        <NavTab
+                            label={'Clients'}
+                            url={'/home/clients'}
+                            setValue={setHeaderText}
+                        />
+                        <NavTab
+                            label={'Messages'}
+                            url={'/home/messages-admin'}
+                            setValue={setHeaderText}
+                        />
+                    </>
+                }
+                {!user.is_staff &&
+                    <>
+                        <NavTab
+                            label={'Profile'}
+                            url={'/home/profile'}
+                            setValue={setHeaderText}
+                        />
+                        <NavTab
+                            label={'Contact Us'}
+                            url={'/home/contact-us'}
+                            setValue={setHeaderText}
+                        />
+                    </>
+                }
 
                 <div className='flex flex-col text-center self-center hover:cursor-pointer hover:border-t-4 border-t-2 border-gray-200 w-full' onClick={() => logoutUser()}>
                     <span className="w-full h-10  text-lg text-white font-semibold" >Logout</span>
