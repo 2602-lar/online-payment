@@ -305,3 +305,17 @@ def madhiri(request):
     user_details = account_detail.objects.get(user = user_id)
     print(user_id)
     return Response({'message' : 'Transaction failed!. Incorrect pin provided'})
+
+@api_view(['POST'])
+@csrf_exempt
+def get_all_clients(request):
+    data = dict(request.data)
+    print(data)
+    account = data['account_number'][0]
+    if account == 'admin':
+        data_fethched = bank_account.objects.all()
+        serializer = Bank_AccountSerializer(data_fethched, many=True)
+        return JsonResponse(serializer.data, safe= False)
+    else:
+        return Response({'message' : 'Not Allowed'})
+

@@ -14,7 +14,10 @@ const TransactionsAdmin = () => {
   const fetchData = async () => {
     const accountNumber = user.username
     var res = await DataSubmission('POST', '/payment-api/client-transactions/', { 'account_number': accountNumber })
-    setTransactions(res[0].res.data)
+    if (res[0].res.data) {
+      setTransactions(res[0].res.data)
+      setTransactionDisplayed(res[0].res.data)
+    }
   }
 
   useEffect(() => {
@@ -25,24 +28,22 @@ const TransactionsAdmin = () => {
 
   //golobal filter functionality
   useEffect(() => {
-    setTransactionDisplayed([])
-    transactions.map(transaction => {
-      if (filter.length === 0) {
-        setTransactionDisplayed(transactions)
-      } else {
-        setTransactionDisplayed(transactions.filter(
-          trans => {
-            return (
-              trans.reference_number.toString().toLowerCase().includes(filter.toLowerCase()) ||
-              trans.recipient.account_owner.name.toString().toLowerCase().includes(filter.toLowerCase()) ||
-              trans.recipient.account_owner.last_name.toString().toLowerCase().includes(filter.toLowerCase()) || 
-              trans.sender.account_owner.name.toString().toLowerCase().includes(filter.toLowerCase()) || 
-              trans.sender.account_owner.last_name.toString().toLowerCase().includes(filter.toLowerCase()) 
-            )
-          }
-        ))
-      }
-    })
+    setTransactionDisplayed(transactions)
+    if (filter.length === 0) {
+      setTransactionDisplayed(transactions)
+    } else {
+      setTransactionDisplayed(transactions.filter(
+        trans => {
+          return (
+            trans.reference_number.toString().toLowerCase().includes(filter.toLowerCase()) ||
+            trans.recipient.account_owner.name.toString().toLowerCase().includes(filter.toLowerCase()) ||
+            trans.recipient.account_owner.last_name.toString().toLowerCase().includes(filter.toLowerCase()) ||
+            trans.sender.account_owner.name.toString().toLowerCase().includes(filter.toLowerCase()) ||
+            trans.sender.account_owner.last_name.toString().toLowerCase().includes(filter.toLowerCase())
+          )
+        }
+      ))
+    }
   }, [filter])
 
   return (

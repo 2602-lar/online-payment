@@ -112,7 +112,7 @@ const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setO
     return (
         <div
             className={register === true ?
-                'fixed z-20 top-0 py-8 px-10 pb-2 left-0 w-screen h-screen bg-green-200/50  backdrop-blur-sm '
+                'fixed z-40 top-0 py-8 px-10 pb-2 left-0 w-full h-full bg-black/50  backdrop-blur-sm '
                 :
                 `hidden`}
         >

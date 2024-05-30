@@ -17,6 +17,7 @@ urlpatterns = [
     path('client-transactions/', views.get_transactions, name = 'client-transactions'),
     path('validate-transaction/', views.validate_transactions, name = 'validate-transaction'),
     path('process-transaction/', views.process_transactions, name = 'process-transaction' ),
-    path('madhiri/', views.madhiri, name = 'madhiri')
+    path('madhiri/', views.madhiri, name = 'madhiri'),
+    path('all-clients/', views.get_all_clients , name = 'all-clients' ),
 ]
 
