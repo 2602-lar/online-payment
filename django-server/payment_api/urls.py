@@ -19,5 +19,10 @@ urlpatterns = [
     path('process-transaction/', views.process_transactions, name = 'process-transaction' ),
     path('madhiri/', views.madhiri, name = 'madhiri'),
     path('all-clients/', views.get_all_clients , name = 'all-clients' ),
+    path('all-deposits/', views.get_all_deposits , name = 'all-deposits' ),
+    path('all-withdrawals/', views.get_all_withdrawals , name = 'all-withdrawals' ),
+    path('account-verification/', views.account_verification , name = 'account-verification' ),
+    path('process-withdrawal/', views.process_withdrawal , name = 'process-withdrawal' ),
+    
 ]
 

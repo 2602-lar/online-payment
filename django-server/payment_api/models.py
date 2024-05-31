@@ -62,7 +62,7 @@ class Withdrawal(models.Model):
     amount = models.FloatField()
     currency = models.CharField(max_length=100)
     usd_opening_balance = models.FloatField()
-    zig_balance = models.FloatField()
+    zig_opening_balance = models.FloatField()
     usd_closing_balance = models.FloatField()
     zig_closing_balance = models.FloatField()
     
@@ -73,7 +73,7 @@ class Deposit(models.Model):
     amount = models.FloatField()
     currency = models.CharField(max_length=100)
     usd_opening_balance = models.FloatField()
-    zig_balance = models.FloatField()
+    zig_opening_balance = models.FloatField()
     usd_closing_balance = models.FloatField()
     zig_closing_balance = models.FloatField()
     

@@ -319,3 +319,127 @@ def get_all_clients(request):
     else:
         return Response({'message' : 'Not Allowed'})
 
+
+@api_view(['POST'])
+@csrf_exempt
+def get_all_withdrawals(request):
+    data = dict(request.data)
+    account = data['account_number'][0]
+    if account == 'admin':
+        data_fethched = Withdrawal.objects.all()
+        serializer = WithdrawalSerializer(data_fethched, many=True)
+        return JsonResponse(serializer.data, safe= False)
+    else:
+        return Response({'message' : 'Not Allowed'})
+
+
+@api_view(['POST'])
+@csrf_exempt
+def get_all_deposits(request):
+    data = dict(request.data)
+    account = data['account_number'][0]
+    if account == 'admin':
+        data_fethched = Deposit.objects.all()
+        serializer = DepositSerializer(data_fethched, many=True)
+        return JsonResponse(serializer.data, safe= False)
+    else:
+        return Response({'message' : 'Not Allowed'})
+
+
+@api_view(['POST'])
+@csrf_exempt
+def account_verification(request):
+    data = dict(request.data)
+    account_number = data['account_number'][0]
+    serializer = PruneBank_AccountSerializer(
+                    bank_account.objects.filter(account_number = account_number), 
+                    many = True
+                )
+    #validating recipient account
+    if (len(serializer.data) < 1):
+        return Response({'message' : 'Account not found'})
+    else:
+            amount = float(data['amount'][0])
+            account = serializer.data[0]
+            if(data['currency'][0] == 'USD'):
+                if(amount >= account['balance_USD']):
+                    return Response({'message' : 'Insufficient funds USD'})
+                else:
+                    return Response({'message' : 'all good'})
+    
+                #validate for ZIG     
+            else:
+                if(amount >= account['balance_ZIG']):
+                    return Response({'message' : 'Insufficient funds ZIG.'})
+                else:
+                    return Response({'message' : 'all good'})
+    
+    
+#api view for validating transaction
+@api_view(['POST'])
+@csrf_exempt
+def process_withdrawal(request):
+    data = dict(request.data)
+    user_password = User.objects.filter(username = data['username'][0])
+    user_serializer = CreateUserSerializer(user_password, many=True)
+    user_password = user_serializer.data[0]['password']
+    
+    if check_password(data['password'][0], user_password ) :
+        account_object = bank_account.objects.filter(account_number = data['account_number'][0])
+        account = PruneBank_AccountSerializer(account_object, many = True).data[0]
+        amount = float(data['amount'][0])
+        reference_number = generate_id(Withdrawal, 'WID')
+        account_opening_balance_usd = account['balance_USD']
+        account_opening_balance_zig = account['balance_ZIG']
+        account_closing_balance_usd = account_opening_balance_usd
+        account_closing_balance_zig = account_opening_balance_zig
+        if data['currency'][0] == 'USD' :
+            account_closing_balance_usd = account_opening_balance_usd - amount
+        else:
+            account_closing_balance_zig = account_opening_balance_zig - amount           
+        
+        #creating transaction
+        withdrawal_create = PruneWithdrawalSerializer(data = {
+           'date' : data['date'][0],
+           'reference_number' : reference_number,
+           'account' : data['account_number'][0],
+           'amount' : amount,
+           'currency': data['currency'][0],
+           'usd_opening_balance': account_opening_balance_usd,
+           'zig_opening_balance' : account_opening_balance_zig,
+           'usd_closing_balance' : account_closing_balance_usd,
+           'zig_closing_balance' : account_closing_balance_zig
+        }) 
+        
+        if withdrawal_create.is_valid():
+            withdrawal_create.save()
+            if data['currency'][0] == 'USD' :
+                #updating bank accounts
+                account_record = bank_account.objects.get(account_number = data['account_number'][0])
+                account_record.balance_USD = account_closing_balance_usd
+                account_record.save()
+            else:
+                #updating bank accounts
+                account_record = bank_account.objects.get(account_number = data['account_number'][0])
+                account_record.balance_ZIG = account_closing_balance_zig
+                account_record.save()
+            return Response({'message' : 'Funds withdrawn successfully.'})   
+        else:
+            return Response({'message' : 'Withdrawal not complete!'})        
+    else:
+        return Response({'message' : 'Withdrawal failed!. Incorrect pin provided'})
+    
+@api_view(['POST'])
+@csrf_exempt
+def account_verification_deposit(request):
+    data = dict(request.data)
+    account_number = data['account_number'][0]
+    serializer = PruneBank_AccountSerializer(
+                    bank_account.objects.filter(account_number = account_number), 
+                    many = True
+                )
+    #validating recipient account
+    if (len(serializer.data) < 1):
+        return Response({'message' : 'Account not found'})
+    else:
+        return Response({'message' : 'all good'})
