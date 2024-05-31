@@ -443,3 +443,57 @@ def account_verification_deposit(request):
         return Response({'message' : 'Account not found'})
     else:
         return Response({'message' : 'all good'})
+    
+#api view for validating transaction
+@api_view(['POST'])
+@csrf_exempt
+def process_deposit(request):
+    data = dict(request.data)
+    user_password = User.objects.filter(username = data['username'][0])
+    user_serializer = CreateUserSerializer(user_password, many=True)
+    user_password = user_serializer.data[0]['password']
+    
+    if check_password(data['password'][0], user_password ) :
+        account_object = bank_account.objects.filter(account_number = data['account_number'][0])
+        account = PruneBank_AccountSerializer(account_object, many = True).data[0]
+        amount = float(data['amount'][0])
+        reference_number = generate_id(Deposit, 'DEP')
+        account_opening_balance_usd = account['balance_USD']
+        account_opening_balance_zig = account['balance_ZIG']
+        account_closing_balance_usd = account_opening_balance_usd
+        account_closing_balance_zig = account_opening_balance_zig
+        if data['currency'][0] == 'USD' :
+            account_closing_balance_usd = account_opening_balance_usd + amount
+        else:
+            account_closing_balance_zig = account_opening_balance_zig + amount           
+        
+        #creating transaction
+        deposit_create = PruneDepositSerializer(data = {
+           'date' : data['date'][0],
+           'reference_number' : reference_number,
+           'account' : data['account_number'][0],
+           'amount' : amount,
+           'currency': data['currency'][0],
+           'usd_opening_balance': account_opening_balance_usd,
+           'zig_opening_balance' : account_opening_balance_zig,
+           'usd_closing_balance' : account_closing_balance_usd,
+           'zig_closing_balance' : account_closing_balance_zig
+        }) 
+        
+        if deposit_create.is_valid():
+            deposit_create.save()
+            if data['currency'][0] == 'USD' :
+                #updating bank accounts
+                account_record = bank_account.objects.get(account_number = data['account_number'][0])
+                account_record.balance_USD = account_closing_balance_usd
+                account_record.save()
+            else:
+                #updating bank accounts
+                account_record = bank_account.objects.get(account_number = data['account_number'][0])
+                account_record.balance_ZIG = account_closing_balance_zig
+                account_record.save()
+            return Response({'message' : 'Funds deposited successfully.'})   
+        else:
+            return Response({'message' : 'Deposit not complete!'})        
+    else:
+        return Response({'message' : 'Deposit failed!. Incorrect pin provided'})

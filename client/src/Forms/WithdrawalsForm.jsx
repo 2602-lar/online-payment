@@ -81,6 +81,7 @@ const WithdrawalsForm = ({ withdrawal, setWithdrawal }) => {
         }
 
     }
+    
     return (
         <div
             className={withdrawal === true ?
