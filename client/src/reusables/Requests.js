@@ -26,12 +26,18 @@ export const DataSubmission = async (method, endPoint, formData, caller) => {
     ]
 
     if (err.code === 'ERR_BAD_REQUEST') {
-      var serverResponse = err.response.data
-      Object.keys(serverResponse).map(
-        key => {
-          //toast.error(key + ' : ' + serverResponse[key])
+      if (err.response.data) {
+        var serverResponse = err.response.data
+        if (serverResponse.length < 25) {
+          Object.keys(serverResponse).map(
+            key => {
+              toast.error(key + ' : ' + serverResponse[key])
+            }
+          )
+        }else{
+          toast.error('Internal system error')
         }
-      )
+      }
     } else {
       toast.error('Check network status. If problem persists contact service provider.')
     }

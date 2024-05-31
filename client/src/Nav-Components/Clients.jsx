@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../Context/AuthContext'
-import Account from '../Forms/Account'
+import {Account} from '../Forms/Account'
 import { DataSubmission } from '../reusables/Requests'
 import { TxtInputRequired } from '../reusables/components'
 

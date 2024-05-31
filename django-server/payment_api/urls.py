@@ -25,6 +25,7 @@ urlpatterns = [
     path('process-withdrawal/', views.process_withdrawal , name = 'process-withdrawal' ),
     path('account-verification-deposit/', views.account_verification_deposit , name = 'account-verification-deposit' ),
     path('process-deposit/', views.process_deposit , name = 'process-deposit' ),
+    path('account-stats/', views.account_stats , name = 'account-stats' ),
     
 ]
 

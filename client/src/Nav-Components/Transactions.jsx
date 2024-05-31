@@ -41,7 +41,7 @@ const Transactions = () => {
                 Account Name
               </th>
               <th>
-                Account Name
+                Reason for Payment
               </th>
               <th>
                 Opening Balance

@@ -302,9 +302,9 @@ def process_transactions(request):
 @csrf_exempt
 def madhiri(request):
     user_id = dict(request.data)['user_id'][0]
-    user_details = account_detail.objects.get(user = user_id)
-    print(user_id)
-    return Response({'message' : 'Transaction failed!. Incorrect pin provided'})
+    user_details = account_detail.objects.filter(user = user_id)
+    serializer = Account_DetailsSerializer(user_details, many = True)
+    return JsonResponse(serializer.data, safe= False)
 
 @api_view(['POST'])
 @csrf_exempt
@@ -497,3 +497,13 @@ def process_deposit(request):
             return Response({'message' : 'Deposit not complete!'})        
     else:
         return Response({'message' : 'Deposit failed!. Incorrect pin provided'})
+
+@api_view(['POST'])
+@csrf_exempt
+def account_stats(request):
+    data = dict(request.data)
+    account_number = data['account_number'][0]
+    total_count = Deposit.objects.filter()
+    bank_account_balance = bank_account.objects.filter(account_number = account_number)
+    account = PruneBank_AccountSerializer(bank_account_balance, many = True).data[0]
+    return Response({'balance_zig': account['balance_ZIG'], 'balance_usd' : account['balance_USD']})

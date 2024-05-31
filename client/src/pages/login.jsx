@@ -3,7 +3,7 @@ import { InfoDiv, TxtInput } from '../reusables/components'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import AuthContext from '../Context/AuthContext'
-import Account from '../Forms/Account'
+import {Account} from '../Forms/Account'
 
 export const Login = () => {
 
@@ -28,11 +28,10 @@ export const Login = () => {
     } else {
       const feedback = toast.loading("Authenticating User")
       let response = await loginUser(accountNumber, password)
-      console.log(response.status)
       if (response.status === 200) {
         toast.update(feedback, { render: "User authentication succcessful .", type: "success", isLoading: false, autoClose: true })
-      } else if (response.status !== 200) {
-        if (response.data) {
+      } else if (response.response.status !== 200) {
+        if (response.response.data) {
           if (response.response.data.detail === 'No active account found with the given credentials') {
             toast.update(feedback, { render: "User authentication failed ! Incorrect details.", type: "error", isLoading: false, autoClose: 7000 })
           }

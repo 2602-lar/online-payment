@@ -51,11 +51,6 @@ export const Home = () => {
                             url={'/home/clients'}
                             setValue={setHeaderText}
                         />
-                        <NavTab
-                            label={'Messages'}
-                            url={'/home/messages-admin'}
-                            setValue={setHeaderText}
-                        />
                     </>
                 }
                 {!user.is_staff &&
@@ -73,7 +68,8 @@ export const Home = () => {
                     </>
                 }
 
-                <div className='flex flex-col text-center self-center hover:cursor-pointer hover:border-t-4 border-t-2 border-gray-200 w-full' onClick={() => logoutUser()}>
+                <div className='flex flex-col text-center self-center hover:cursor-pointer hover:border-t-4 border-t-2 border-gray-200 w-full' 
+                onClick={() => { if(window.confirm('Are you sure you want to logout ?')){logoutUser()}}}>
                     <span className="w-full h-10  text-lg text-white font-semibold" >Logout</span>
                 </div>
 

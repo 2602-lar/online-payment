@@ -4,24 +4,26 @@ import { SelectInput, TxtArea, TxtInput, TxtInputRequired } from '../reusables/c
 import { DataSubmission } from '../reusables/Requests'
 import { toast } from 'react-toastify'
 
-const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setOpenDiv, data }) => {
-    const [name, setName] = useState(data ? data.nama : '')
-    const [middleName, setMiddleName] = useState(data ? data.middle_name : '') 
-    const [lastName, setLastName] = useState(data ? data.last_name : '')
-    const [idNumber, setIdNumber] = useState(data ? data.id_number : '')
-    const [gender, setGender] = useState(data ? data.gender : '')
-    const [maritalStatus, setMaritalStatus] = useState(data ? data.marital_status : '')
-    const [dob, setDob] = useState(data ? data.dob : '')
-    const [nationality, setNationality] = useState(data ? data.nationality : '')
-    const [email, setEmail] = useState(data ? data.email : '')
-    const [phoneHome, setPhoneHome] = useState(data ? data.phone_home : '')
-    const [phoneWork, setPhoneWork] = useState(data ? data.phone_work : '')
-    const [address, setAddress] = useState(data ? data.address : '')
-    const [nokName, setNokName] = useState(data ? data.nok_name : '')
-    const [nokRelationship, setNokRelationship] = useState(data ? data.nok_relationship : '')
-    const [nokPhone, setNokPhone] = useState(data ? data.nok_phone : '')
-    const [nokEmail, setNokEmail] = useState(data ? data.nok_email : '')
-    const [nokAddress, setNokAddress] = useState(data ? data.nok_address : '')
+export const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setOpenDiv, data }) => {
+    const [name, setName] = useState(() => {
+        if (data) { return data.name } else { return 'inini' }
+    })
+    const [middleName, setMiddleName] = useState(() => data ? data.middle_name : '')
+    const [lastName, setLastName] = useState(() => data ? data.last_name : '')
+    const [idNumber, setIdNumber] = useState(() => data ? data.id_number : '')
+    const [gender, setGender] = useState(() => data ? data.gender : '')
+    const [maritalStatus, setMaritalStatus] = useState(() => data ? data.marital_status : '')
+    const [dob, setDob] = useState(() => data ? data.dob : '')
+    const [nationality, setNationality] = useState(() => data ? data.nationality : '')
+    const [email, setEmail] = useState(() => data ? data.email : '')
+    const [phoneHome, setPhoneHome] = useState(() => data ? data.phone_home : '')
+    const [phoneWork, setPhoneWork] = useState(() => data ? data.phone_work : '')
+    const [address, setAddress] = useState(() => data ? data.address : '')
+    const [nokName, setNokName] = useState(() => data ? data.nok_name : '')
+    const [nokRelationship, setNokRelationship] = useState(() => data ? data.nok_relationship : '')
+    const [nokPhone, setNokPhone] = useState(() => data ? data.nok_phone : '')
+    const [nokEmail, setNokEmail] = useState(() => data ? data.nok_email : '')
+    const [nokAddress, setNokAddress] = useState(() => data ? data.nok_address : '')
     const [pin, setPin] = useState('')
     const [pinCon, setPinCon] = useState('')
     const [password, setPassword] = useState(data ? data.password : '')
@@ -99,6 +101,8 @@ const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setO
 
         }
     }
+
+    console.log(data)
 
     const Sectionhead = ({ text }) => {
         return (
@@ -250,48 +254,51 @@ const Account = ({ register, setRegister, setRegisteredAccount, setMessage, setO
                         type={'text'}
                         placeholder={'house no, street name, location/suburb, city '}
                     />
+                    {data ? <></>
+                        :
+                        <>
+                            <Sectionhead text={'Account Setup'} />
+                            <TxtInputRequired
+                                label={'Pin'}
+                                value={pin}
+                                setvalue={setPin}
+                                type={'password'}
+                                placeholder={'XXXX'}
+                            />
 
-                    <Sectionhead text={'Account Setup'} />
-                    <TxtInputRequired
-                        label={'Pin'}
-                        value={pin}
-                        setvalue={setPin}
-                        type={'password'}
-                        placeholder={'XXXX'}
-                    />
+                            <TxtInputRequired
+                                label={'Confirm Pin'}
+                                value={pinCon}
+                                setvalue={setPinCon}
+                                type={'password'}
+                                placeholder={'Enter pin again to confirm'}
+                            />
 
-                    <TxtInputRequired
-                        label={'Confirm Pin'}
-                        value={pinCon}
-                        setvalue={setPinCon}
-                        type={'password'}
-                        placeholder={'Enter pin again to confirm'}
-                    />
+                            <TxtInputRequired
+                                label={'Recovery Password'}
+                                value={password}
+                                setvalue={setPassword}
+                                type={'password'}
+                                placeholder={'Allways remember this incase you forget the pin'}
+                            />
 
-                    <TxtInputRequired
-                        label={'Recovery Password'}
-                        value={password}
-                        setvalue={setPassword}
-                        type={'password'}
-                        placeholder={'Allways remember this incase you forget the pin'}
-                    />
+                            <TxtInputRequired
+                                label={'Confirm Password'}
+                                value={passwordCon}
+                                setvalue={setPasswordCon}
+                                type={'password'}
+                                placeholder={'Enter password again to confirm'}
+                            />
+                            <div className='w-full col-span-full items-center p-8 border-t-2 border-green-800 border-solid'>
+                                <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl' onClick={e => { Submit(e) }}>
+                                    Submit
+                                </button>
+                            </div>
+                        </>
+                    }
 
-                    <TxtInputRequired
-                        label={'Confirm Password'}
-                        value={passwordCon}
-                        setvalue={setPasswordCon}
-                        type={'password'}
-                        placeholder={'Enter password again to confirm'}
-                    />
-                    <div className='w-full col-span-full items-center p-8 border-t-2 border-green-800 border-solid'>
-                        <button className='bg-gray-200 w-24 h-10 rounded-md hover:rounded-2xl' onClick={e => { Submit(e) }}>
-                            Submit
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
     )
 }
-
-export default Account
